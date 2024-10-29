@@ -9,4 +9,3 @@ fi
 done
 cat results.txt
 echo welcome
-echo Hiii
