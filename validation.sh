@@ -7,3 +7,4 @@ else
 echo "$file has no content" >> results.txt
 fi
 done
+echo welcome
