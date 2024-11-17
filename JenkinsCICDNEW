@@ -1,29 +1,28 @@
 pipeline {
-	agent { label 'java'}
-
-	stages {
-		stage('Checkout') {
-			steps {
-				git branch: 'main', url: 'https://github.com/sudheer76R/java-example.git'
-			}
-		}
-
-		stage('Test') {
-			steps {
-				echo 'Running unit test and integration test'
-			}
-		}
-
-		stage('Build') {
-			steps {
-				sh 'mvn clean package'
-			}
-		}
-
-		stage('Push') {
-			steps {
-				echo 'Pusing artidact to artidactory'
-			}
-		}
-	}
-}
+    agent any
+      stages {
+        stage('Git Checkout') {
+            steps {
+                git branch: 'main', url: https://github.com/BinduPrivate/java-example.git
+            }
+        }
+        stage('Code Quality Analysis') {
+             steps {
+                withSonarQubeEnv('sonarqube') {
+                    sh "mvn clean verify sonar:sonar Dsonar.projectKy=build_project"             
+             }
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+       
+                stage('Upload Binaries to Jfrog Artifactory') {
+                  steps {
+                       sh 'jr rt upload --url http://13.233.195.39:8081/artifactory/libs-release-local/works/buddy/samples/works-with-heroku/1.0/works-with-heroku-1.0.war'
+                          }
+        }
+    }
+    }
